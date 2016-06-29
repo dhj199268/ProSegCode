@@ -5,8 +5,10 @@ import numpy as np
 
 def sub2Index(size, sub_tup):
     assert len(size) == 3, "size is error"
-    index_mat = np.arange(size[0] * size[1] * size[2])
+    total=size[0] * size[1] * size[2]
+    index_mat = np.arange(0,total)
     index_mat = index_mat.reshape(size)
+    assert index_mat.max()<total
     return index_mat[sub_tup]
 
 
@@ -22,9 +24,9 @@ def imShow3D(img, slice=15, axis=3):
 
     # get sclie data
     if axis == 1:
-        imgslice = img[slice, :, :]
+        imgslice = img[slice]
     elif axis == 2:
-        imgslice = img[:, slice, :]
+        imgslice = img[:, slice]
     elif axis == 3:
         imgslice = img[:, :, slice]
 
@@ -64,6 +66,7 @@ def sampleTuple(tuple_data, nsample, repeat=False):
     if repeat == False:
         assert nsample <= size, "the num of sample too much"
     random_list = np.random.randint(0, size, nsample)
+
     return tuple(data[:, random_list])
 
 
@@ -75,16 +78,18 @@ if __name__ == '__main__':
     img = loadMat(filename, str)
     size=img.shape
     # print"test imShow3D funciton"
-    imShow3D(img, axis=3, slice=2)
+    # imShow3D(img, axis=3, slice=15)
     # print "test smapleTuple"
-    # import numpy as np
-    #
-    # sub = np.where(img==0)
-    # #sub = sampleTuple(sub, 1)
-    # print sub
-    # print img[sub]
+    import numpy as np
+
+    sub = np.where(img>=0)
+    sub = sampleTuple(sub, img.size)
+    print sub
+    print img.size
     # # test sub2index
-    # index = sub2Index(img.shape, sub)
+    index = sub2Index(img.shape, sub)
+    print index
+    print index.max()
     # img_other=img.reshape(img.size)
     # data=img_other[index]
     # print data.max()
