@@ -1,11 +1,13 @@
 # encoding:utf-8
-from Logger import Logger
+
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 from sklearn.externals import joblib
 import logging
 
+
 class LocalSystem():
+
     def __init__(self, niter=3, ntree=500, maxdepth=15, bootstrap=True):
         self.__logger = logging.getLogger("LocalSystem")
         self.__iter = niter
@@ -31,11 +33,13 @@ class LocalSystem():
         for i in xrange(0, self.__iter):
             self.__models.append(RandomForestClassifier(n_estimators=self.__ntree, max_depth=self.__maxdepth,
                                                         bootstrap=self.__bootstrap, n_jobs=3))
-    def __calFeature(self,tradtas):
+
+    def __calFeature(self, tradtas):
         for data in tradtas:
             data.start()
         for data in tradtas:
             data.join()
+
     def train(self, trdatas):
         # self.__logger.info("Train model" )
         self._initModel()
@@ -45,11 +49,11 @@ class LocalSystem():
         self.__logger.info("Init feature")
         self.__logger.info("Train model")
         # for model in self.__models:
-        for i in xrange(0,len(self.__models)):
-            self.__logger.info("the time of iter train:"+str(i+1))
-            model=self.__models[i]
+        for i in xrange(0, len(self.__models)):
+            self.__logger.info("the time of iter train:" + str(i + 1))
+            model = self.__models[i]
             self._train(trdatas, model)
-            if i==len(self.__models)-1:
+            if i == len(self.__models) - 1:
                 break
             self._predict(trdatas, model)
 
@@ -83,10 +87,10 @@ class LocalSystem():
         nsize = data.getImgSize()
         # self.__logger.debug("Img size:"+str(nsize))
         # self.__logger.debug("pro map size:"+str(pro_map.shape))
-        return pro_map[:,1].reshape(nsize[0], nsize[1], nsize[2])
+        return pro_map[:, 1].reshape(nsize[0], nsize[1], nsize[2])
 
     def saveModel(self, filename):
-        self.__logger.info("Save model:"+filename)
+        self.__logger.info("Save model:" + filename)
         joblib.dump(self.__models, filename, compress=3)
 
     def loadModel(self, filename):
@@ -94,32 +98,32 @@ class LocalSystem():
         self.__models = joblib.load(filename)
 
 
-if __name__ == '__main__':
+def main():
     con_path = "logging.ini"
     import  logging.config
     logging.config.fileConfig(con_path)
     from Core import TrainData
     modelfile = r"H:\ProSegCode\model.pkl"
-    # thread_list = list()
-    # img_file = u"H:\DHJ\课题二\seg_data\pat1\img1.mat"
-    # ground_file = u"H:\DHJ\课题二\seg_data\pat1\img1_pro.mat"
-    # traindata = TrainData((img_file, ground_file),samnple=13000)
-    # thread_list.append(traindata)
-    # img_file = u"H:\DHJ\课题二\seg_data\pat1\img2.mat"
-    # ground_file = u"H:\DHJ\课题二\seg_data\pat1\img2_pro.mat"
-    # traindata = TrainData((img_file, ground_file),samnple=13000)
-    # thread_list.append(traindata)
-    # img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
-    # ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
-    # traindata = TrainData((img_file, ground_file),samnple=13000)
-    # thread_list.append(traindata)
-    # for thread in thread_list:
-    #     thread.start()
-    # for thread in thread_list:
-    #     thread.join()
+    thread_list = list()
+    img_file = u"H:\DHJ\课题二\seg_data\pat1\img1.mat"
+    ground_file = u"H:\DHJ\课题二\seg_data\pat1\img1_pro.mat"
+    traindata = TrainData((img_file, ground_file),samnple=13000)
+    thread_list.append(traindata)
+
+    img_file = u"H:\DHJ\课题二\seg_data\pat1\img2.mat"
+    ground_file = u"H:\DHJ\课题二\seg_data\pat1\img2_pro.mat"
+    traindata = TrainData((img_file, ground_file),samnple=13000)
+    thread_list.append(traindata)
+
+    img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
+    ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
+    traindata = TrainData((img_file, ground_file),samnple=13000)
+    thread_list.append(traindata)
+
+
     system = LocalSystem()
-    # system.train(thread_list)
-    system.loadModel(modelfile)
+    system.train(thread_list)
+    # system.saveModel(modelfile)
     # system.loadModel(modelfile)
     img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
     ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
@@ -131,3 +135,6 @@ if __name__ == '__main__':
     from Until import Tool
     print"show img"
     Tool.imShow3D(result)
+
+if __name__ == '__main__':
+    main()

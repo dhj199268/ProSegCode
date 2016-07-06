@@ -5,7 +5,6 @@ import numpy as np
 from Until import Tool
 import CalFeature as cf
 import threading
-# from Logger import Logger
 import logging
 
 
@@ -68,8 +67,8 @@ class TrainData(threading.Thread):
         pos_label = np.ones(pos_data.shape[0], np.uint8)
         neg_label = np.zeros(neg_data.shape[0], np.uint8)
         label = np.concatenate((pos_label, neg_label))
-        self.__logger.debug("Train data  min :%d   max: %d   shape:%s".format(train.min(),train.max(),str(train.shape)))
-        self.__logger.debug("Label min :%d   max: %d   shape:%s:" .format(label.min(),label.max(),str(label.shape)))
+        self.__logger.debug("Train data  min :{}   max: {}   shape:{}".format(train.min(),train.max(),str(train.shape)))
+        self.__logger.debug("Label min :{}   max:{}   shape:{}:" .format(label.min(),label.max(),str(label.shape)))
 
         del pos_data
         del neg_data
@@ -77,8 +76,8 @@ class TrainData(threading.Thread):
 
     def __sample(self, img, ground_img):
         self.__logger.info("Sample pos and neg position")
-        n_pos = self.__nsmaple / 2
-        n_neg = self.__nsmaple / 2
+        n_pos = self.__nsmaple * 0.6
+        n_neg = self.__nsmaple * 0.4
 
         self.__pos_position = np.where(ground_img > 0)
         self.__neg_position = np.where(ground_img == 0)
@@ -104,7 +103,7 @@ class TrainData(threading.Thread):
 
         all_pos = np.where(pro_map >= 0)
         self.__sec_context = self.__fun_context(pro_map, all_pos)
-        self.__logger.debug("Second feature:" + str(self.__sec_context))
+        self.__logger.debug("Second feature min :{}   max: {}   shape:{}:" .format(self.__sec_context.min(),self.__sec_context.max(),self.__sec_context.shape))
 
     def getImgSize(self):
         return self.__img_size
@@ -127,9 +126,9 @@ class TrainData(threading.Thread):
         all_pos = np.where(img >= 0)
         haar = self.__fun_haar(img, all_pos)
 
-        self.__logger.debug("Haar feature:" + str(haar))
+        self.__logger.debug("haar feature min :{}   max: {}   shape:{}:" .format(haar.min(),haar.max(),haar.shape))
         context = self.__fun_context(img, all_pos)
-        self.__logger.debug("Context feature:" + str(context))
+        self.__logger.debug("context feature min :{}   max: {}   shape:{}:" .format(context.min(),context.max(),context.shape))
         self.__context_haar = np.column_stack((context, haar))
         self.__sec_context = np.ones(context.shape, dtype=context.dtype) * 0.5
         del all_pos

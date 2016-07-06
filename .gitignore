@@ -1,4 +1,4 @@
 *.pyc
 
-*.log
+/src/main/log
 *.pkl
