@@ -14,26 +14,6 @@
    <string>前列腺分割平台</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="imgView">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>330</y>
-      <width>281</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="groundImgVeiw">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>20</y>
-      <width>281</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -44,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Ground Truth Image</string>
+     <string>Ground Truth</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -57,30 +37,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>Segment Image</string>
+     <string>Segment result</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>610</y>
-      <width>31</width>
+      <x>260</x>
+      <y>600</y>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Image</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="segView">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>281</width>
-      <height>261</height>
-     </rect>
+     <string>New Treatment Image</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">

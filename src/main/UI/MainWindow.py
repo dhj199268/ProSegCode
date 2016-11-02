@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'H:\ProSegCode\src\main\UI\MainWindow.ui'
 #
-# Created: Wed Nov 02 15:35:05 2016
+# Created: Wed Nov 02 21:02:31 2016
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -29,12 +29,6 @@ class Ui_MainWindow(object):
         MainWindow.resize(976, 670)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.imgView = QtGui.QGraphicsView(self.centralwidget)
-        self.imgView.setGeometry(QtCore.QRect(180, 330, 281, 261))
-        self.imgView.setObjectName(_fromUtf8("imgView"))
-        self.groundImgVeiw = QtGui.QGraphicsView(self.centralwidget)
-        self.groundImgVeiw.setGeometry(QtCore.QRect(340, 20, 281, 261))
-        self.groundImgVeiw.setObjectName(_fromUtf8("groundImgVeiw"))
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(440, 290, 111, 29))
         self.label_2.setObjectName(_fromUtf8("label_2"))
@@ -42,13 +36,10 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QtCore.QRect(120, 290, 91, 29))
         self.label.setObjectName(_fromUtf8("label"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(300, 610, 31, 16))
+        self.label_3.setGeometry(QtCore.QRect(260, 600, 121, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
-        self.segView = QtGui.QGraphicsView(self.centralwidget)
-        self.segView.setGeometry(QtCore.QRect(20, 20, 281, 261))
-        self.segView.setObjectName(_fromUtf8("segView"))
         self.verticalLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(660, 270, 131, 211))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(660, 270, 171, 211))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setMargin(0)
@@ -71,9 +62,6 @@ class Ui_MainWindow(object):
         self.ExitButton = QtGui.QPushButton(self.verticalLayoutWidget)
         self.ExitButton.setObjectName(_fromUtf8("ExitButton"))
         self.verticalLayout.addWidget(self.ExitButton)
-        self.OpenImge = QtGui.QPushButton(self.centralwidget)
-        self.OpenImge.setGeometry(QtCore.QRect(500, 380, 121, 31))
-        self.OpenImge.setObjectName(_fromUtf8("OpenImge"))
         self.verticalLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(660, 30, 171, 171))
         self.verticalLayoutWidget_2.setObjectName(_fromUtf8("verticalLayoutWidget_2"))
@@ -168,14 +156,13 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "前列腺分割平台", None))
-        self.label_2.setText(_translate("MainWindow", "Ground Truth Image", None))
-        self.label.setText(_translate("MainWindow", "Segment Image", None))
-        self.label_3.setText(_translate("MainWindow", "Image", None))
+        self.label_2.setText(_translate("MainWindow", "Ground Truth", None))
+        self.label.setText(_translate("MainWindow", "Segment result", None))
+        self.label_3.setText(_translate("MainWindow", "New Treatment Image", None))
         self.SegmentButton.setText(_translate("MainWindow", "Segment", None))
         self.TrainingButton.setText(_translate("MainWindow", "Training", None))
         self.LoadTrainDataButton.setText(_translate("MainWindow", "Load Training Data", None))
         self.ExitButton.setText(_translate("MainWindow", "Exit", None))
-        self.OpenImge.setText(_translate("MainWindow", "OpenImge", None))
         self.Slicelabel.setText(_translate("MainWindow", "Slice:   ", None))
         self.Iterlabel.setText(_translate("MainWindow", "Iter:    ", None))
         self.Treelabel.setText(_translate("MainWindow", "TreeNum: ", None))
@@ -184,8 +171,11 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.menuLoad.setTitle(_translate("MainWindow", "Load", None))
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
+        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O", None))
         self.actionSave.setText(_translate("MainWindow", "Save", None))
+        self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S", None))
         self.actionOpen_GroundImg.setText(_translate("MainWindow", "Open GroundImg", None))
+        self.actionOpen_GroundImg.setShortcut(_translate("MainWindow", "Ctrl+G", None))
         self.actionSave_Model.setText(_translate("MainWindow", "Save Model", None))
         self.actionLoad_model.setText(_translate("MainWindow", "Load Model", None))
         self.actionLoad_GroundImg.setText(_translate("MainWindow", "Load GroundImg", None))
