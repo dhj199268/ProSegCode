@@ -29,16 +29,19 @@ class TrainData(threading.Thread):
         self.__fun_context = context_fun
         self.__fun_haar = haar_fun
         assert os.path.exists(self.__img_file), "img file no exists"
-        assert os.path.exists(self.__ground_file), "img file no exists"
+        assert os.path.exists(self.__ground_file), "ground img file no exists"
 
     def setSample(self, sample):
         self.__nsmaple = sample
+        return self
 
     def setHaarFun(self, fun=cf.calHaarFeature):
         self.__fun_haar = fun
+        return self
 
-    def setContextFun(self, fun=cf.calHaarFeature):
+    def setContextFun(self, fun=cf.calContextFeature):
         self.__fun_context = fun
+        return self
 
     def getTrainData(self):
         '''
@@ -67,11 +70,13 @@ class TrainData(threading.Thread):
         pos_label = np.ones(pos_data.shape[0], np.uint8)
         neg_label = np.zeros(neg_data.shape[0], np.uint8)
         label = np.concatenate((pos_label, neg_label))
-        self.__logger.debug("Train data  min :{}   max: {}   shape:{}".format(train.min(),train.max(),str(train.shape)))
-        self.__logger.debug("Label min :{}   max:{}   shape:{}:" .format(label.min(),label.max(),str(label.shape)))
+        self.__logger.debug(
+            "Train data  min :{}   max: {}   shape:{}".format(train.min(), train.max(), str(train.shape)))
+        self.__logger.debug("Label min :{}   max:{}   shape:{}:".format(label.min(), label.max(), str(label.shape)))
 
         del pos_data
         del neg_data
+
         return train, label
 
     def __sample(self, img, ground_img):
@@ -103,7 +108,9 @@ class TrainData(threading.Thread):
 
         all_pos = np.where(pro_map >= 0)
         self.__sec_context = self.__fun_context(pro_map, all_pos)
-        self.__logger.debug("Second feature min :{}   max: {}   shape:{}:" .format(self.__sec_context.min(),self.__sec_context.max(),self.__sec_context.shape))
+        self.__logger.debug(
+            "Second feature min :{}   max: {}   shape:{}:".format(self.__sec_context.min(), self.__sec_context.max(),
+                                                                  self.__sec_context.shape))
 
     def getImgSize(self):
         return self.__img_size
@@ -122,15 +129,19 @@ class TrainData(threading.Thread):
         self.__sample(img, ground_img)
 
         # cal feature
+        # cal haar feature
         self.__logger.info("Cal featrue")
         all_pos = np.where(img >= 0)
         haar = self.__fun_haar(img, all_pos)
+        self.__logger.debug("haar feature min :{}   max: {}   shape:{}:".format(haar.min(), haar.max(), haar.shape))
 
-        self.__logger.debug("haar feature min :{}   max: {}   shape:{}:" .format(haar.min(),haar.max(),haar.shape))
+        # cal context feature
         context = self.__fun_context(img, all_pos)
-        self.__logger.debug("context feature min :{}   max: {}   shape:{}:" .format(context.min(),context.max(),context.shape))
+        self.__logger.debug(
+            "context feature min :{}   max: {}   shape:{}:".format(context.min(), context.max(), context.shape))
         self.__context_haar = np.column_stack((context, haar))
         self.__sec_context = np.ones(context.shape, dtype=context.dtype) * 0.5
+
         del all_pos
         del haar
         del context

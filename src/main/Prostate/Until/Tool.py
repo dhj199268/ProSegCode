@@ -5,10 +5,10 @@ import numpy as np
 
 def sub2Index(size, sub_tup):
     assert len(size) == 3, "size is error"
-    total=size[0] * size[1] * size[2]
-    index_mat = np.arange(0,total)
+    total = size[0] * size[1] * size[2]
+    index_mat = np.arange(0, total)
     index_mat = index_mat.reshape(size)
-    assert index_mat.max()<total
+    assert index_mat.max() < total
     return index_mat[sub_tup]
 
 
@@ -37,6 +37,7 @@ def imShow3D(img, slice=15, axis=3):
     plt.axis('off')
     pl.show()
 
+
 def loadMat(file_name, mat_name):
     '''
     :param filename:matlab mat data flie path
@@ -60,6 +61,7 @@ def sampleTuple(tuple_data, nsample, repeat=False):
     '''
     assert len(tuple_data) == 3
     import numpy as np
+
     # vstack data
     data = np.vstack(tuple_data)
     size = data.shape[1]
@@ -71,18 +73,17 @@ def sampleTuple(tuple_data, nsample, repeat=False):
 
 
 if __name__ == '__main__':
-
     str = "temp_data"
     filename = u"H:\DHJ\课题二\seg_data\pat1\img1.mat"
     print "test loadMat funciton"
     img = loadMat(filename, str)
-    size=img.shape
+    size = img.shape
     # print"test imShow3D funciton"
     # imShow3D(img, axis=3, slice=15)
     # print "test smapleTuple"
     import numpy as np
 
-    sub = np.where(img>=0)
+    sub = np.where(img >= 0)
     sub = sampleTuple(sub, img.size)
     print sub
     print img.size

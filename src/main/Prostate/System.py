@@ -18,21 +18,29 @@ class LocalSystem():
 
     def isBootstrap(self, bootstrap):
         self.__bootstrap = True
+        return self
 
     def setIter(self, niter):
         self.__iter = niter
+        return self
 
     def setTree(self, ntree):
         self.__ntree = ntree
+        return self
 
     def setMaxDepth(self, maxdepth):
         self.__maxdepth = maxdepth
+        return self
 
     def _initModel(self):
         self.__logger.info("Init model,the num of model:" + str(self.__iter))
-        for i in xrange(0, self.__iter):
-            self.__models.append(RandomForestClassifier(n_estimators=self.__ntree, max_depth=self.__maxdepth,
-                                                        bootstrap=self.__bootstrap, n_jobs=3))
+
+        if self.__iter > 0:
+            for i in xrange(0, self.__iter):
+                self.__models.append(RandomForestClassifier(n_estimators=self.__ntree, max_depth=self.__maxdepth,
+                                                            bootstrap=self.__bootstrap, n_jobs=3))
+        else:
+            raise Exception("iter must mort than zero")
 
     def __calFeature(self, tradtas):
         for data in tradtas:
@@ -98,28 +106,27 @@ class LocalSystem():
         self.__models = joblib.load(filename)
 
 
-def main():
+def test():
     con_path = "logging.ini"
-    import  logging.config
+    import logging.config
     logging.config.fileConfig(con_path)
     from Core import TrainData
     modelfile = r"H:\ProSegCode\model.pkl"
     thread_list = list()
     img_file = u"H:\DHJ\课题二\seg_data\pat1\img1.mat"
     ground_file = u"H:\DHJ\课题二\seg_data\pat1\img1_pro.mat"
-    traindata = TrainData((img_file, ground_file),samnple=13000)
+    traindata = TrainData((img_file, ground_file), samnple=13000)
     thread_list.append(traindata)
 
     img_file = u"H:\DHJ\课题二\seg_data\pat1\img2.mat"
     ground_file = u"H:\DHJ\课题二\seg_data\pat1\img2_pro.mat"
-    traindata = TrainData((img_file, ground_file),samnple=13000)
+    traindata = TrainData((img_file, ground_file), samnple=13000)
     thread_list.append(traindata)
 
     img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
     ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
-    traindata = TrainData((img_file, ground_file),samnple=13000)
+    traindata = TrainData((img_file, ground_file), samnple=13000)
     thread_list.append(traindata)
-
 
     system = LocalSystem()
     system.train(thread_list)
@@ -136,5 +143,6 @@ def main():
     print"show img"
     Tool.imShow3D(result)
 
+
 if __name__ == '__main__':
-    main()
+    test()
