@@ -1,6 +1,6 @@
 # encoding:utf-8
 import scipy.io as sio
-import numpy as np
+
 
 
 def sub2Index(size, sub_tup):

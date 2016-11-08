@@ -5,11 +5,12 @@ import numpy as np
 from sklearn.externals import joblib
 import logging
 
+T = 0.8
+
 
 class LocalSystem():
-
     def __init__(self, niter=3, ntree=500, maxdepth=15, bootstrap=True):
-        self.__logger = logging.getLogger("LocalSystem")
+        self.__logger = logging
         self.__iter = niter
         self.__ntree = ntree
         self.__maxdepth = maxdepth
@@ -24,13 +25,20 @@ class LocalSystem():
         self.__iter = niter
         return self
 
-    def setTree(self, ntree):
+    def setTreeNum(self, ntree):
         self.__ntree = ntree
         return self
 
     def setMaxDepth(self, maxdepth):
         self.__maxdepth = maxdepth
         return self
+
+    def setModels(self, models):
+        self.__models = models
+        return self
+
+    def getModels(self):
+        return self.__models
 
     def _initModel(self):
         self.__logger.info("Init model,the num of model:" + str(self.__iter))
@@ -72,8 +80,10 @@ class LocalSystem():
             train_tmp, labe_tmp = trdata_list[0].getTrainData()
             traindata = np.row_stack((traindata, train_tmp))
             label = np.concatenate((label, labe_tmp))
+
         self.__logger.debug("Train data:" + str(traindata))
         self.__logger.debug("Label data:" + str(label))
+
         model.fit(traindata, label)
 
     def _predict(self, trdata_list, model):
@@ -93,17 +103,28 @@ class LocalSystem():
                 break
             data.updateSecFeature(pro_map[:, 1])
         nsize = data.getImgSize()
-        # self.__logger.debug("Img size:"+str(nsize))
-        # self.__logger.debug("pro map size:"+str(pro_map.shape))
-        return pro_map[:, 1].reshape(nsize[0], nsize[1], nsize[2])
+        self.__logger.debug("Img size:" + str(nsize))
+        self.__logger.debug("pro map size:" + str(pro_map.shape))
+        result = pro_map[:, 1].reshape(nsize[0], nsize[1], nsize[2])
+        result[result > T] = 1
+        result[result < T] = 0
+        return result
 
     def saveModel(self, filename):
         self.__logger.info("Save model:" + filename)
-        joblib.dump(self.__models, filename, compress=3)
+        LocalSystem.saveModel(self.__models, filename)
 
     def loadModel(self, filename):
         self.__logger.info("Load model:" + filename)
-        self.__models = joblib.load(filename)
+        self.__models = LocalSystem.loadModel(filename)
+
+    @staticmethod
+    def saveModel(models, filename):
+        joblib.dump(models, filename, compress=3)
+
+    @staticmethod
+    def loadModel(filename):
+        return joblib.load(filename)
 
 
 def test():
@@ -115,18 +136,18 @@ def test():
     thread_list = list()
     img_file = u"H:\DHJ\课题二\seg_data\pat1\img1.mat"
     ground_file = u"H:\DHJ\课题二\seg_data\pat1\img1_pro.mat"
-    traindata = TrainData((img_file, ground_file), samnple=13000)
+    traindata = TrainData((img_file, ground_file), samnple=1000)
     thread_list.append(traindata)
 
-    img_file = u"H:\DHJ\课题二\seg_data\pat1\img2.mat"
-    ground_file = u"H:\DHJ\课题二\seg_data\pat1\img2_pro.mat"
-    traindata = TrainData((img_file, ground_file), samnple=13000)
-    thread_list.append(traindata)
-
-    img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
-    ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
-    traindata = TrainData((img_file, ground_file), samnple=13000)
-    thread_list.append(traindata)
+    # img_file = u"H:\DHJ\课题二\seg_data\pat1\img2.mat"
+    # ground_file = u"H:\DHJ\课题二\seg_data\pat1\img2_pro.mat"
+    # traindata = TrainData((img_file, ground_file), samnple=13000)
+    # thread_list.append(traindata)
+    #
+    # img_file = u"H:\DHJ\课题二\seg_data\pat1\img3.mat"
+    # ground_file = u"H:\DHJ\课题二\seg_data\pat1\img3_pro.mat"
+    # traindata = TrainData((img_file, ground_file), samnple=13000)
+    # thread_list.append(traindata)
 
     system = LocalSystem()
     system.train(thread_list)

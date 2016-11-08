@@ -108,7 +108,7 @@ class Window(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionTreatment_Img, QtCore.SIGNAL('triggered()'), self.openTreatImg)
         QtCore.QObject.connect(self.actionGround_Img, QtCore.SIGNAL('triggered()'), self.openGroundTruthImg)
         QtCore.QObject.connect(self.actionModel, QtCore.SIGNAL('triggered()'), self.loadModel)
-        QtCore.QObject.connect(self.actionSave_Model, QtCore.SIGNAL('triggered()'), self.saveModel)
+        QtCore.QObject.connect(self.actionModel_2, QtCore.SIGNAL('triggered()'), self.saveModel)
         QtCore.QObject.connect(self.actionResult, QtCore.SIGNAL('triggered()'), self.saveResult)
 
         QtCore.QObject.connect(self.SliceSlider, QtCore.SIGNAL('valueChanged(int)'), self,
@@ -384,7 +384,7 @@ if __name__ == '__main__':
     # load logging
     import logging.config
 
-    con_path = r"H:\ProSegCode\src\main\logging.ini"
+    con_path = r"logging.ini"
     if os.path.isfile(con_path):
         logging.config.fileConfig(con_path)
 

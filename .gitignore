@@ -1,4 +1,5 @@
 *.pyc
-
+*.mat
 /src/main/log
 *.pkl
+*.log

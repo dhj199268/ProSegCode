@@ -138,7 +138,7 @@
       <x>660</x>
       <y>30</y>
       <width>171</width>
-      <height>171</height>
+      <height>201</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -238,7 +238,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="depthlabel">
          <property name="text">
           <string>MaxDepth:</string>
          </property>
@@ -262,6 +262,37 @@
         <size>
          <width>20</width>
          <height>18</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="samplelabel">
+         <property name="text">
+          <string>Sample:  </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="sampleSlider">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>13</height>
         </size>
        </property>
       </spacer>
@@ -397,7 +428,41 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>480</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Train data Info:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="trainDataInfoEdit">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>500</y>
+      <width>361</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="sampleEdit">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>180</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -407,35 +472,35 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="menuOpen">
     <property name="title">
-     <string>File</string>
+     <string>Open</string>
     </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
+    <addaction name="actionTreatment_Img"/>
+    <addaction name="actionGround_Img"/>
+    <addaction name="actionModel"/>
    </widget>
-   <widget class="QMenu" name="menuLoad">
+   <widget class="QMenu" name="menuSave">
     <property name="title">
-     <string>Load</string>
+     <string>Save</string>
     </property>
-    <addaction name="actionLoad_model"/>
-    <addaction name="actionLoad_GroundImg"/>
+    <addaction name="actionModel_2"/>
+    <addaction name="actionResult"/>
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuLoad"/>
+   <addaction name="menuOpen"/>
+   <addaction name="menuSave"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionOpen">
+  <action name="actionOpen_TreatmentImg">
    <property name="text">
-    <string>Open</string>
+    <string>Treatment Img</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionSave_Result">
    <property name="text">
-    <string>Save</string>
+    <string>Result</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -454,14 +519,44 @@
     <string>Save Model</string>
    </property>
   </action>
-  <action name="actionLoad_model">
+  <action name="actionOpen_model">
    <property name="text">
-    <string>Load Model</string>
+    <string>Model</string>
    </property>
   </action>
-  <action name="actionLoad_GroundImg">
+  <action name="actionOpen_GroundImg_2">
    <property name="text">
-    <string>Load GroundImg</string>
+    <string>Ground Img</string>
+   </property>
+  </action>
+  <action name="actionSave_Model_2">
+   <property name="text">
+    <string>Model</string>
+   </property>
+  </action>
+  <action name="actionTreatment_Img">
+   <property name="text">
+    <string>Treatment Img</string>
+   </property>
+  </action>
+  <action name="actionModel">
+   <property name="text">
+    <string>Model</string>
+   </property>
+  </action>
+  <action name="actionGround_Img">
+   <property name="text">
+    <string>Ground Img</string>
+   </property>
+  </action>
+  <action name="actionModel_2">
+   <property name="text">
+    <string>Model</string>
+   </property>
+  </action>
+  <action name="actionResult">
+   <property name="text">
+    <string>Result</string>
    </property>
   </action>
  </widget>

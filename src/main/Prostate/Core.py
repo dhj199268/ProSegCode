@@ -9,27 +9,29 @@ import logging
 
 
 class TrainData(threading.Thread):
-    __logger = logging.getLogger("TrainData")
+    __logger = logging
+
     __context_haar = None
     __sec_context = None
     __pos_position = None
     __neg_position = None
-    __ground_file = None
     __fun_context = None
     __fun_haar = None
     __nsmaple = None
-    __img_file = None
     __img_size = None
 
-    def __init__(self, file_tuple, samnple=8000, context_fun=cf.calContextFeature, haar_fun=cf.calHaarFeature):
+    def __init__(self, img_tuple, samnple=8000, context_fun=cf.calContextFeature, haar_fun=cf.calHaarFeature):
         threading.Thread.__init__(self)
-        self.__img_file = file_tuple[0]
-        self.__ground_file = file_tuple[1]
+        self.__img = img_tuple[0]
+        self.__groundImg = img_tuple[1]
         self.__nsmaple = samnple
         self.__fun_context = context_fun
         self.__fun_haar = haar_fun
-        assert os.path.exists(self.__img_file), "img file no exists"
-        assert os.path.exists(self.__ground_file), "ground img file no exists"
+
+        # assert os.path.exists(self.__img_file), "img file no exists"
+
+        # if self.__ground_file is not None:
+        #     assert os.path.exists(self.__ground_file), "ground img file no exists"
 
     def setSample(self, sample):
         self.__nsmaple = sample
@@ -86,6 +88,7 @@ class TrainData(threading.Thread):
 
         self.__pos_position = np.where(ground_img > 0)
         self.__neg_position = np.where(ground_img == 0)
+
         self.__pos_position = Tool.sampleTuple(self.__pos_position, n_pos)
         self.__neg_position = Tool.sampleTuple(self.__neg_position, n_neg)
         self.__pos_position = Tool.sub2Index(self.__img_size, self.__pos_position)
@@ -113,20 +116,25 @@ class TrainData(threading.Thread):
                                                                   self.__sec_context.shape))
 
     def getImgSize(self):
+        if self.__img_size is None:
+            raise Exception("unknow img size")
         return self.__img_size
+
+    def setImgSize(self, size):
+        self.__img_size = size
+        return self
 
     def run(self):
         # load data
         self.__logger.info("Load img and groundtruth img")
-        self.__logger.debug("Img file path:" + self.__img_file)
-        self.__logger.debug("Groundtruth file path:" + self.__ground_file)
-        str_name = "temp_data"
-        img = Tool.loadMat(self.__img_file, str_name)
-        ground_img = Tool.loadMat(self.__ground_file, str_name)
-        self.__img_size = img.shape
 
-        # sample data,get pos and neg position
-        self.__sample(img, ground_img)
+        img = self.__img
+        self.setImgSize(img.shape)
+
+        if self.__groundImg is not None:
+            ground_img = self.__groundImg
+            # sample data,get pos and neg position
+            self.__sample(img, ground_img)
 
         # cal feature
         # cal haar feature
