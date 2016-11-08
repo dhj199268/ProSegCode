@@ -1,5 +1,5 @@
-*.pyc
+.idea
 *.mat
-/src/main/log
-*.pkl
+seg_data
+*.pyc
 *.log
